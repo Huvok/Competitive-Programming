@@ -14,7 +14,6 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
 
 using namespace std;
@@ -34,42 +33,42 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+ii arr[1000005];
+char str[1000005];
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN;
+	scanf("%lld", &intN);
 
+	FOR(intI, 0, intN)
+	{
+		scanf("%lld %lld", &arr[intI].first, &arr[intI].second);
+	}
+
+	ll intCur = 0;
+
+	FOR(intI, 0, intN)
+	{
+		if (intCur + arr[intI].first <= 500)
+		{
+			str[intI] = 'A';
+			intCur += arr[intI].first;
+		}
+		else if (intCur - arr[intI].second >= -500)
+		{
+			str[intI] = 'G';
+			intCur -= arr[intI].second;
+		}
+		else
+		{
+			printf("-1\n");
+			return 0;
+		}
+	}
+
+	printf("%s\n", str);
 	return 0;
 }
 //======================================================================================================================

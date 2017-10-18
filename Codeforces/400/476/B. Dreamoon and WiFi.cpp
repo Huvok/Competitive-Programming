@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,60 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intP = 0, intM = 0, intIn = 0;
+	string s;
+	cin >> s;
+	FOR(intI, 0, s.length())
+	{
+		if (s[intI] == '+') intP++;
+	}
+
+	cin >> s;
+	FOR(intI, 0, s.length())
+	{
+		if (s[intI] == '+') intP--;
+		else if (s[intI] == '?') intIn++;
+	}
+
+	ll N = 1, K = 1;
+	FOR(intI, 1, intIn + 1)
+	{
+		N *= intI;
+	}
+
+	if (intP < 0)
+	{
+		printf("%.12f\n", 0.0);
+	}
+	else if (intP == 0 && intIn == 0)
+	{
+		printf("%.12f\n", 1.0);
+	}
+	else
+	{
+		ll NMK = intIn - intP;
+		for (ll i = NMK - 1; i >= 1; i--)
+		{
+			NMK *= i;
+		}
+
+		FOR(intI, 1, intP + 1)
+		{
+			K *= intI;
+		}
+
+		ll NK;
+		if (intIn == intP) NK = 1;
+		else NK = N / (NMK * K);
+
+		printf("%.12f\n", (NK <= 0 ? 0.0 : NK * 1.0 / (pow(2, intIn))));
+	}
 
 	return 0;
 }
+
 //======================================================================================================================

@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,41 +35,30 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	string s;
+	cin >> s;
+
+	string ans = "";
+	FOR(intI, 0, s.length())
+	{
+		if (intI + 2 < s.length())
+		{
+			if (s.substr(intI, 3) == "WUB")
+			{
+				intI += 2;
+				if (ans.length() > 0 && ans[ans.length() - 1] != ' ') ans += " ";
+				continue;
+			}
+		}
+
+		ans += s[intI];
+	}
+
+	cout << (ans[ans.length() - 1] == ' ' ? ans.substr(0, ans.length() - 1) : ans) << endl;
 
 	return 0;
 }

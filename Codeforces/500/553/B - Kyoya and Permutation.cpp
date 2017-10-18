@@ -34,41 +34,49 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
+ll fibo[55];
+ll ans[55];
+ll intN;
 
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+void solve(ll intI, ll intK)
+{
+	if (intI >= intN) return;
+
+	if (fibo[intN - intI] < intK)
+	{
+		ans[intI] = intI + 2;
+		ans[intI + 1] = intI + 1;
+		intK -= fibo[intN - intI];
+		solve(intI + 2, intK);
 	}
-};
+	else
+	{
+		ans[intI] = intI + 1;
+		solve(intI + 1, intK);
+	}
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intK;
+	cin >> intN >> intK;
+
+	fibo[0] = 0;
+	fibo[1] = 1;
+	FOR(intI, 2, intN + 1)
+	{
+		fibo[intI] = fibo[intI - 1] + fibo[intI - 2];
+	}
+
+	solve(0, intK);
+
+	FOR(intI, 0, intN)
+	{
+		cout << ans[intI] << " ";
+	}
+
+	cout << endl;
 
 	return 0;
 }

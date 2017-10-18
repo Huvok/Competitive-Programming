@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,41 +35,45 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	vi v1, v2, v3;
+	ll intN;
+	cin >> intN;
+	ll intNext;
+
+	FOR(intI, 0, intN)
+	{
+		cin >> intNext;
+
+		if (intNext < 0) v1.pb(intNext);
+		else if (intNext > 0) v2.pb(intNext);
+		else v3.pb(intNext);
+	}
+
+	if (v1.size() % 2 == 0)
+	{
+		v3.pb(v1.back());
+		v1.pop_back();
+	}
+
+	if (v2.size() == 0)
+	{
+		v2.pb(v1.back());
+		v1.pop_back();
+		v2.pb(v1.back());
+		v1.pop_back();
+	}
+
+	cout << v1.size();
+	FOR(intI, 0, v1.size()) cout << " " << v1[intI];
+	cout << endl << v2.size();
+	FOR(intI, 0, v2.size()) cout << " " << v2[intI];
+	cout << endl << v3.size();
+	FOR(intI, 0, v3.size()) cout << " " << v3[intI];
+	cout << endl;
 
 	return 0;
 }

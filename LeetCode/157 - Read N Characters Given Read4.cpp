@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -34,39 +34,35 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
+// Forward declaration of the read4 API.
+int read4(char *buf);
+
+class Solution {
 public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	/**
+	* @param buf Destination buffer
+	* @param n   Maximum number of characters to read
+	* @return    The number of characters read
+	*/
+	int read(char *buf, int n)
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
+		int intAns = 0;
+
+		int intCur = -1;
+		for (int i = 0; i <= n / 4; i++)
 		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
+			if (intCur == 0) break;
+
+			intCur = read4(buf + intAns);
+			intAns += intCur;
 		}
 
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+		return min(intAns, n);
 	}
 };
 
 //----------------------------------------------------------------------------------------------------------------------
+
 int main()
 {
 

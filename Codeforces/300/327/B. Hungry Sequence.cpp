@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,21 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN;
+	cin >> intN;
+
+	FOR(intI, intN, intN * 2)
+	{
+		cout << intI << " ";
+	}
+
+	cout << endl;
 
 	return 0;
 }
+
 //======================================================================================================================

@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,57 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
+vi AdjList[205];
+bool vis[205];
 
-		while (n >= 0)
+void dfs(ll i)
+{
+	vis[i] = true;
+
+	FOR(intI, 0, AdjList[i].size())
+	{
+		if (!vis[AdjList[i][intI]])
 		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
+			dfs(AdjList[i][intI]);
 		}
 	}
-};
+}
 
 //----------------------------------------------------------------------------------------------------------------------
+
 int main()
 {
+	ll intN, intM;
+
+	scanf("%lld %lld", &intN, &intM);
+	ll intNext, intE;
+	ll intZeros = 1;
+	FOR(intI, 1, intN + 1)
+	{
+		scanf("%lld", &intNext);
+		if (intNext != 0) intZeros = 0;
+		FOR(intJ, 0, intNext)
+		{
+			scanf("%lld", &intE);
+			AdjList[intI].pb(intE + intM);
+			AdjList[intE + intM].pb(intI);
+		}
+	}
+
+	ll intCount = -1;
+	memset(vis, false, sizeof(vis));
+	FOR(intI, 1, intN + 1)
+	{
+		if (!vis[intI])
+		{
+			dfs(intI);
+			intCount++;
+		}
+	}
+
+	printf("%lld\n", intCount + intZeros);
 
 	return 0;
 }
+
 //======================================================================================================================

@@ -14,7 +14,6 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
 
 using namespace std;
@@ -34,41 +33,60 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN, intM, intK;
+	cin >> intN >> intM >> intK;
+
+	ll intL = 0, intH = intM;
+	intK--;
+	while (intL < intH)
+	{
+		ll intMiddle = (intH + intL) / 2 + 1;
+
+		ll intSum = 0;
+
+		if (intK != intN - 1)
+		{
+			if (intN - (intK + 1) >= intMiddle)
+			{
+				intSum += (intMiddle - 1) * (intMiddle) / 2;
+				intSum += (intN - (intK + 1) - (intMiddle - 1));
+			}
+			else
+			{
+				intSum += (intMiddle - 1) * intMiddle / 2;
+				intSum -= (intMiddle - (intN - (intK + 1))) * (intMiddle - ((intN - (intK + 1))) - 1) / 2;
+			}
+		}
+
+		if (intK != 0)
+		{
+			if (intK >= intMiddle)
+			{
+				intSum += (intMiddle - 1) * (intMiddle) / 2;
+				intSum += (intK - (intMiddle - 1));
+			}
+			else
+			{
+				intSum += (intMiddle - 1) * intMiddle / 2;
+				intSum -= (intMiddle - (intK)) * (intMiddle - (intK)-1) / 2;
+			}
+		}
+
+		if (intM >= intSum + intMiddle)
+		{
+			intL = intMiddle;
+		}
+		else if (intM < intSum + intMiddle)
+		{
+			intH = intMiddle - 1;
+		}
+	}
+
+	cout << intL << endl;
 
 	return 0;
 }

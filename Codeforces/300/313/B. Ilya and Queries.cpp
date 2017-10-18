@@ -14,7 +14,6 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
 
 using namespace std;
@@ -34,42 +33,44 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+ll arr[100005];
+ll err[100005];
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intQ;
+	string str;
+	cin >> str;
+	scanf("%lld", &intQ);
+	FOR(intI, 1, str.length())
+	{
+		if (str[intI] == str[intI - 1] && str[intI] == '.')
+		{
+			arr[intI] = arr[intI - 1] + 1;
+			err[intI] = err[intI - 1];
+		}
+		else if (str[intI] == str[intI - 1] && str[intI] == '#')
+		{
+			err[intI] = err[intI - 1] + 1;
+			arr[intI] = arr[intI - 1];
+		}
+		else
+		{
+			arr[intI] = arr[intI - 1];
+			err[intI] = err[intI - 1];
+		}
+	}
 
+	ll intL, intR;
+	FOR(intI, 0, intQ)
+	{
+		scanf("%lld %lld", &intL, &intR);
+		intL--; intR--;
+		ll a = arr[intR] - (intL >= 0 ? arr[intL] : 0);
+		ll b = err[intR] - (intL >= 0 ? err[intL] : 0);
+		printf("%lld\n", a + b);
+	}
 	return 0;
 }
 //======================================================================================================================

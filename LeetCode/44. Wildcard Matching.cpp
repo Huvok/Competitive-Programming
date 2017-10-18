@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -37,39 +38,44 @@ typedef vector<ii> vii;
 class Solution
 {
 public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	bool isMatch(string s, string p)
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
+		ll intS = 0, intP = 0, intStar = -1, intMatched = 0;
+
+		while (intS < s.length())
 		{
-			if (nums1[m] > nums2[n])
+			if (s[intS] == p[intP] ||
+				p[intP] == '?')
 			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
+				intS++; intP++;
 			}
-			else
+			else if (p[intP] == '*')
 			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
+				intStar = intP;
+				intP++;
+				intMatched = intS;
 			}
+			else if (intStar != -1)
+			{
+				intP = intStar + 1;
+				intMatched++;
+				intS = intMatched;
+			}
+			else return false;
 		}
 
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+		while (intP < p.length() &&
+			p[intP] == '*') intP++;
+
+		return intP == p.length();
 	}
 };
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
-
+	Solution sol;
+	sol.isMatch("aa", "a");
 	return 0;
 }
 //======================================================================================================================

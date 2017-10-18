@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,33 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+ll dp[5005][5005];
+ll arr[5005];
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN, intM, intK;
+	cin >> intN >> intM >> intK;
+	memset(dp, 0, sizeof(dp));
+	memset(arr, 0, sizeof(arr));
+	FOR(intI, 1, intN + 1)
+	{
+		cin >> arr[intI];
+		if (intI) arr[intI] += arr[intI - 1];
+	}
+
+	FOR(intI, 1, intK + 1)
+	{
+		FOR(intJ, intI * intM, intN + 1)
+		{
+			dp[intI][intJ] = max(dp[intI][intJ - 1], dp[intI - 1][intJ - intM] + arr[intJ] - arr[intJ - intM]);
+		}
+	}
+
+	cout << dp[intK][intN] << endl;
 
 	return 0;
 }
+
 //======================================================================================================================

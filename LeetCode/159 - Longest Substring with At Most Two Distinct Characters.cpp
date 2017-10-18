@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -37,36 +37,37 @@ typedef vector<ii> vii;
 class Solution
 {
 public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	int lengthOfLongestSubstringTwoDistinct(string s)
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
+		if (s == "") return 0;
+		int arr[256];
+		for (int i = 0; i < 256; i++) arr[i] = 0;
+		int intStart = 0, intLength = 1, intCount = 0;
+		for (int i = 0; i < s.length(); i++)
 		{
-			if (nums1[m] > nums2[n])
+			arr[s[i]]++;
+			if (arr[s[i]] == 1)
 			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
+				intCount++;
+
+				while (intCount > 2)
+				{
+					arr[s[intStart]]--;
+
+					if (arr[s[intStart]] == 0) intCount--;
+					intStart++;
+				}
 			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
+
+			intLength = max(intLength, i - intStart + 1);
 		}
 
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+		return intLength;
 	}
 };
 
 //----------------------------------------------------------------------------------------------------------------------
+
 int main()
 {
 

@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,61 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
+ll arr[100005];
+ll intK;
+void solve(ll i, ll j)
 {
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	if (intK <= 0) return;
+	if (i >= j) return;
+	ll m = ((j - i) >> 1) + i;
+	if ((j - i) % 2 == 1) swap(arr[m], arr[m + 1]);
+	else swap(arr[m], arr[m - 1]);
+	intK -= 2;
+	if ((j - i) % 2 == 0)
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+		solve(i, m - 1);
+		solve(m, j);
 	}
-};
+	else
+	{
+		solve(i, m);
+		solve(m + 1, j);
+	}
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN;
+	cin >> intN >> intK;
+
+	if (intK % 2 == 0)
+	{
+		cout << -1 << endl;
+	}
+	else
+	{
+		FOR(intI, 1, intN + 1)
+		{
+			arr[intI - 1] = intI;
+		}
+
+		intK--;
+		solve(0, intN - 1);
+
+		if (intK > 0) cout << -1 << endl;
+		else
+		{
+			FOR(intI, 0, intN)
+			{
+				cout << arr[intI] << " ";
+			}
+		}
+
+		cout << endl;
+	}
 
 	return 0;
 }
+
 //======================================================================================================================

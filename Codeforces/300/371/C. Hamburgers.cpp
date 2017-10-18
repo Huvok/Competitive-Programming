@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -25,8 +25,9 @@ using namespace std;
 //======================================================================================================================
 
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
-#define pb push_back
+//#define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,46 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	string s;
+	cin >> s;
+	ll ca = 0, cb = 0, cc = 0;
+	FOR(intI, 0, s.length())
+	{
+		if (s[intI] == 'B') ca++;
+		else if (s[intI] == 'S') cb++;
+		else cc++;
+	}
+	ll na, nb, nc, pa, pb, pc;
+	cin >> na >> nb >> nc >> pa >> pb >> pc;
+	ll intMoney;
+	cin >> intMoney;
+	ll intH = 5000000000000, intL = 0;
+	ll intCost = (ca * pa) + (cb * pb) + (cc * pc);
 
+
+	while (intL + 1 < intH)
+	{
+		ll intM = ((intH - intL) >> 1) + intL;
+
+		if (max(0LL, ca * intM - na) * pa +
+			max(0LL, cb * intM - nb) * pb +
+			max(0LL, cc * intM - nc) * pc > intMoney)
+		{
+			intH = intM;
+		}
+		else
+		{
+			intL = intM;
+		}
+	}
+
+	cout << intL << endl;
+	
 	return 0;
 }
+
 //======================================================================================================================

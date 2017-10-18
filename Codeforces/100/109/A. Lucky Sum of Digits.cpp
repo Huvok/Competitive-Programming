@@ -14,7 +14,6 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
 
 using namespace std;
@@ -34,42 +33,63 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
-
+ll intFours = 0, intSevens = 0;
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN;
+	cin >> intN;
+	ll intCur = intN;
+	while (intCur >= 0)
+	{
+		intSevens++;
+		intCur -= 7;
+	}
 
+	while (intCur <= intN)
+	{
+		if (intCur < 0)
+		{
+			while (intCur < 0)
+			{
+				intSevens--;
+				intCur += 7;
+			}
+		}
+		else if (intCur % 4 == 0)
+		{
+			intFours += intCur / 4;
+			break;
+		}
+		else
+		{
+			intFours = 0;
+			intSevens--;
+			intCur += 7;
+		}
+	}
+
+	if (intFours <= 0 &&
+		intSevens <= 0)
+	{
+		cout << -1 << endl;
+	}
+	else
+	{
+		while (intFours > 0)
+		{
+			intFours--;
+			cout << 4;
+		}
+
+		while (intSevens > 0)
+		{
+			intSevens--;
+			cout << 7;
+		}
+	}
+
+	cout << endl;
 	return 0;
 }
 //======================================================================================================================

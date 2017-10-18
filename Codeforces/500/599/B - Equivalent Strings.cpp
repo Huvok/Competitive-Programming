@@ -34,41 +34,41 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
+string strA, strB;
+map<string, bool> m;
+bool solve(string a, string b)
 {
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	if (m.find(a + b) != m.end()) return m[a + b];
+	if (a == b)
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+		return true;
 	}
-};
+	else if (a.length() % 2 != 0) return false;
+	else
+	{
+		bool res = ((solve(a.substr(0, a.length() / 2), b.substr(0, b.length() / 2)) &&
+			solve(b.substr(b.length() / 2), a.substr(a.length() / 2))) ||
+			((solve(a.substr(0, a.length() / 2), b.substr(b.length() / 2)) &&
+				solve(a.substr(a.length() / 2), b.substr(0, b.length() / 2)))));
 
+		m.insert(mp(a + b, res));
+		return res;
+	}
+}
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	cin >> strA;
+	cin >> strB;
+
+	if (solve(strA, strB))
+	{
+		cout << "YES" << endl;
+	}
+	else
+	{
+		cout << "NO" << endl;
+	}
 
 	return 0;
 }

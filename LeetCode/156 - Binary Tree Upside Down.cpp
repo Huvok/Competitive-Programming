@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -34,39 +34,24 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
+class Solution 
 {
 public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	TreeNode* upsideDownBinaryTree(TreeNode* root) 
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
+		if (root == NULL || root->left == NULL) return root;
 
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+		TreeNode* newRoot = upsideDownBinaryTree(root->left);
+		root->left->left = root->right;
+		root->left->right = root;
+		root->left = NULL;
+		root->right = NULL;
+		return newRoot;
 	}
 };
 
 //----------------------------------------------------------------------------------------------------------------------
+
 int main()
 {
 

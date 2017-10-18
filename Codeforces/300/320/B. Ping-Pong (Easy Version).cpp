@@ -14,7 +14,6 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
 
 using namespace std;
@@ -34,42 +33,57 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
+ll a[105], b[105];
+bool vis[105];
+ll intN = 1, intV;
+void dfs(ll intA)
 {
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	vis[intA] = true;
+	FOR(intI, 1, intN + 1)
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
+		if (vis[intI])
 		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
+			continue;
 		}
-
-		while (n >= 0)
+		else if (a[intA] > a[intI] && a[intA] < b[intI])
 		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
+			dfs(intI);
+		}
+		else if (b[intA] > a[intI] && b[intA] < b[intI])
+		{
+			dfs(intI);
 		}
 	}
-};
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intT, intA, intB;
+	cin >> intV;
+	FOR(intI, 0, intV)
+	{
+		cin >> intT >> intA >> intB;
 
+		if (intT == 1)
+		{
+			a[intN] = intA; b[intN] = intB;
+			intN++;
+		}
+		else
+		{
+			memset(vis, false, sizeof(vis));
+			dfs(intA);
+			if (vis[intB])
+			{
+				cout << "YES" << endl;
+			}
+			else
+			{
+				cout << "NO" << endl;
+			}
+		}
+	}
 	return 0;
 }
 //======================================================================================================================

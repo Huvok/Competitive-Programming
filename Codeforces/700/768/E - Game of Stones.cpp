@@ -14,7 +14,6 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
 
 using namespace std;
@@ -34,41 +33,66 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
+map<ii, ll> dp;
 
-		while (n >= 0)
+ll intGetGrundy(ll i, ll mask, ll intMax)
+{
+	FOR(intI, mask, intMax)
+	{
+		if ((mask >> intI) & 1)
 		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
+			mask ^= (1LL << intI);
 		}
 	}
-};
+
+	if (dp.find(mp(i, mask)) != dp.end())
+	{
+		return dp[mp(i, mask)];
+	}
+
+	bool vis[61] = { false };
+	FOR(intI, 0, i)
+	{
+		if ((mask >> intI) & 1)
+		{
+			vis[intGetGrundy(i - intI - 1, mask ^ (1LL << intI), i)] = true;
+		}
+	}
+
+	FOR(intI, 0, 61)
+	{
+		if (!vis[intI])
+		{
+			dp.insert(mp(mp(i, mask), intI));
+			return intI;
+		}
+	}
+}
+
+ll grundies[61];
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN;
+	scanf("%lld", &intN);
+	ll intAns = 0;
+	ll intNext;
+
+	FOR(intI, 0, intN)
+	{
+		scanf("%lld", &intNext);
+		intAns ^= intGetGrundy(intNext, (1LL << intNext) - 1, 61);
+	}
+
+	if (intAns)
+	{
+		printf("NO\n");
+	}
+	else
+	{
+		printf("YES\n");
+	}
 
 	return 0;
 }

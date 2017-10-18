@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -34,39 +34,32 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
+queue<int> left;
+int read(char *buf, int n) 
 {
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+	int len = 0;
+	int c;
+	while (left.size() > 0) {
+		buf[len++] = left.front();
+		left.pop();
+		if (len == n) return len;
 	}
-};
 
+	while (len < n) {
+		c = read4(buf + len);
+		len += c;
+		if (c < 4) break;
+	}
+
+	for (int i = n; i<len; i++) {
+		left.push(buf[i]);
+	}
+	int e = min(len, n);
+	buf[e] = '\0';
+	return e;
+}
 //----------------------------------------------------------------------------------------------------------------------
+
 int main()
 {
 

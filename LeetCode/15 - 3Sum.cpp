@@ -34,42 +34,52 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
+class Solution 
 {
 public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	vector<vector<int>> threeSum(vector<int>& nums) 
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
+		sort(nums.begin(), nums.end());
+		vector<vector<int>> v;
+		FOR(intI, 0, nums.size() - 2)
 		{
-			if (nums1[m] > nums2[n])
+			if (!intI || (intI && nums[intI] != nums[intI - 1]))
 			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
+				ll intL = intI + 1;
+				ll intH = nums.size() - 1;
+				ll intTarget = nums[intI] * -1;
+				while (intL < intH)
+				{
+					if (nums[intL] + nums[intH] == intTarget)
+					{
+						v.pb({ nums[intI], nums[intL], nums[intH] });
+						while (intL < intH && nums[intL] == nums[intL + 1]) intL++;
+						while (intL < intH && nums[intH] == nums[intH - 1]) intH--;
+						intL++;
+						intH--;
+					}
+					else if (nums[intL] + nums[intH] < intTarget)
+					{
+						intL++;
+					}
+					else
+					{
+						intH--;
+					}
+				}
 			}
 		}
 
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+		return v;
 	}
 };
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
-
+	Solution sol;
+	vector<int> v = { 0,0,0 };
+	sol.threeSum(v);
 	return 0;
 }
 //======================================================================================================================

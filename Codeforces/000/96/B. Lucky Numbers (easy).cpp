@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,30 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
+vi ans;
+void populate(ll i, ll fours, ll sevens)
 {
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
+	if (i > 1e11) return;
 
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+	if (i && fours == sevens) ans.pb(i);
+
+	populate(i * 10 + 4, fours + 1, sevens);
+	populate(i * 10 + 7, fours, sevens + 1);
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	populate(0, 0, 0);
+	ll intN;
+	cin >> intN;
+
+	sort(ans.begin(), ans.end());
+
+	auto it = lower_bound(ans.begin(), ans.end(), intN) - ans.begin();
+	cout << ans[it] << endl;
 
 	return 0;
 }
+
 //======================================================================================================================

@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,45 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+ll arr[100005];
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN, intK;
+	cin >> intN >> intK;
+
+	ll intIndex = 0;
+	FOR(intI, 0, intN)
+	{
+		cin >> arr[intI];
+	}
+
+	ll intSum = 0;
+	ll i = 0;
+	while (intK > 0 && arr[i] < 0)
+	{
+		arr[i] *= -1;
+		i++;
+		intK--;
+	}
+
+	sort(arr, arr + intN);
+
+	while (intK > 0)
+	{
+		arr[0] *= -1;
+		intK--;
+	}
+
+	FOR(intI, 0, intN)
+	{
+		intSum += arr[intI];
+	}
+
+	cout << intSum << endl;
 
 	return 0;
 }
+
 //======================================================================================================================

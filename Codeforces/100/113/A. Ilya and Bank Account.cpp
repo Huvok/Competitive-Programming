@@ -14,7 +14,6 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
 
 using namespace std;
@@ -34,41 +33,24 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN;
+	cin >> intN;
+	string s = to_string(intN);
+	if (intN < 0)
+	{
+		if (intN > -10) cout << 0 << endl;
+		else
+		{
+			ll a = atoi(s.substr(0, s.length() - 1).c_str());
+			ll b = atoi((s.substr(0, s.length() - 2) + s[s.length() - 1]).c_str());
+			cout << max(a, b) << endl;
+		}
+	}
+	else cout << intN << endl;
 
 	return 0;
 }

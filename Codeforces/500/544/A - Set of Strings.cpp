@@ -34,42 +34,51 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intK;
+	string s;
+	cin >> intK;
+	cin >> s;
 
+	vector<string> v;
+	bool arr[26];
+	memset(arr, false, sizeof(arr));
+	ll intLast = -1;
+	ll k = intK;
+	FOR(intI, 0, s.length())
+	{
+		if (!arr[s[intI] - 'a'])
+		{
+			arr[s[intI] - 'a'] = true;
+			if (intLast == -1) intLast = 0;
+			else
+			{
+				intK--;
+				if (intK) v.pb(s.substr(intLast, intI - intLast));
+				else v.pb(s.substr(intLast));
+				intLast = intI;
+			}
+		}
+
+		if (intK <= 0) break;
+		if (intI == s.length() - 1) v.pb(s.substr(intLast));
+	}
+
+	if (v.size() < k)
+	{
+		cout << "NO" << endl;
+	}
+	else
+	{
+		cout << "YES" << endl;
+		FOR(intI, 0, v.size())
+		{
+			cout << v[intI] << endl;
+		}
+	}
 	return 0;
 }
 //======================================================================================================================

@@ -34,42 +34,54 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	string s;
+	ll intN;
+	cin >> s;
+	cin >> intN;
 
+	if (intN == 1)
+	{
+		FOR(intI, 0, s.length())
+		{
+			if (s[intI] != s[s.length() - intI - 1])
+			{
+				cout << "NO" << endl;
+				return 0;
+			}
+		}
+	}
+	else if (s.length() % intN != 0)
+	{
+		cout << "NO" << endl;
+		return 0;
+	}
+	else
+	{
+		vector<string> v;
+		ll intCur = 0;
+		while (intCur < s.length())
+		{
+			v.pb(s.substr(intCur, s.length() / intN));
+			intCur += (s.length() / intN);
+		}
+
+		FOR(intJ, 0, v.size())
+		{
+			FOR(intI, 0, v[intJ].length())
+			{
+				if (v[intJ][intI] != v[intJ][v[intJ].length() - intI - 1])
+				{
+					cout << "NO" << endl;
+					return 0;
+				}
+			}
+		}
+	}
+	cout << "YES" << endl;
 	return 0;
 }
 //======================================================================================================================

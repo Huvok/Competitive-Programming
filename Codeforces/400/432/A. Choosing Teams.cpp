@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -34,41 +34,24 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+ll arr[2005];
 
 //----------------------------------------------------------------------------------------------------------------------
+
 int main()
 {
+	ll intN, intK;
+	scanf("%lld %lld", &intN, &intK);
+
+	FOR(intI, 0, intN) scanf("%lld", &arr[intI]);
+
+	ll intCount = 0;
+	FOR(intI, 0, intN)
+	{
+		if (arr[intI] + intK <= 5) intCount++;
+	}
+
+	printf("%lld\n", intCount / 3);
 
 	return 0;
 }

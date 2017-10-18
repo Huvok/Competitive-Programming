@@ -34,42 +34,41 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+vii v;
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN, intX;
+	cin >> intN >> intX;
 
+	FOR(intI, 0, intN)
+	{
+		ll l, r;
+		cin >> l >> r;
+		v.pb(mp(l, r));
+	}
+
+	sort(v.begin(), v.end());
+
+	ll intCount = 0;
+	ll intCur = 1;
+
+	ll i = 0;
+	while (true)
+	{
+		if (intCur + intX <= v[i].first) intCur += intX;
+		else
+		{
+			intCount += (v[i].first - intCur);
+			intCount += (v[i].second - v[i].first + 1);
+			intCur = v[i].second + 1;
+			i++;
+		}
+
+		if (i >= v.size()) break;
+	}
+	cout << intCount << endl;
 	return 0;
 }
 //======================================================================================================================

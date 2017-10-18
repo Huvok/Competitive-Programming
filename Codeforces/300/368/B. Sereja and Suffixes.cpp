@@ -14,7 +14,6 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
 
 using namespace std;
@@ -34,42 +33,40 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+ll arr[100005];
+ll err[100005];
+set<ll> s;
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN, intM;
+	scanf("%lld %lld", &intN, &intM);
 
+	FOR(intI, 0, intN)
+	{
+		scanf("%lld", &arr[intI]);
+	}
+
+	for (ll i = intN - 1; i >= 0; i--)
+	{
+		if (s.find(arr[i]) == s.end())
+		{
+			err[i] = s.size() + 1;
+			s.insert(arr[i]);
+		}
+		else
+		{
+			err[i] = s.size();
+		}
+	}
+
+	ll intNext;
+	FOR(intI, 0, intM)
+	{
+		scanf("%lld", &intNext);
+		printf("%lld\n", err[intNext - 1]);
+	}
 	return 0;
 }
 //======================================================================================================================

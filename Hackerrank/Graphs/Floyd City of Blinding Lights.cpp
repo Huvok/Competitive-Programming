@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,41 +35,49 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+ll AdjList[405][405];
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intV, intE, intQ;
+	scanf("%lld %lld", &intV, &intE);
+
+	FOR(intI, 0, 405)
+	{
+		FOR(intJ, 0, 405)
+		{
+			AdjList[intI][intJ] = 9999999999999;
+		}
+
+		AdjList[intI][intI] = 0;
+	}
+	ll intS, intD, intW;
+	FOR(intI, 0, intE)
+	{
+		scanf("%lld %lld %lld", &intS, &intD, &intW);
+
+		AdjList[intS][intD] = intW;
+	}
+
+	FOR(intK, 1, intV + 1)
+	{
+		FOR(intI, 1, intV + 1)
+		{
+			FOR(intJ, 1, intV + 1)
+			{
+				AdjList[intI][intJ] = min(AdjList[intI][intJ], AdjList[intI][intK] + AdjList[intK][intJ]);
+			}
+		}
+	}
+
+	scanf("%lld", &intQ);
+
+	FOR(intI, 0, intQ)
+	{
+		scanf("%lld %lld", &intS, &intD);
+		printf("%lld\n", AdjList[intS][intD] != 9999999999999 ? AdjList[intS][intD] : -1);
+	}
 
 	return 0;
 }

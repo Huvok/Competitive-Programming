@@ -34,41 +34,49 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+ll arr[200005];
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	string str1, str2;
+	cin >> str1;
+	cin >> str2;
+
+	FOR(intI, 0, str1.length())
+	{
+		cin >> arr[intI];
+	}
+
+	ll intL = 0, intH = str1.length();
+	ll intMid;
+	ll intCur = 0;
+	while (intL < intH)
+	{
+		intMid = ((intH - intL) >> 1) + intL + 1;
+		string aux = str1;
+		FOR(intI, 0, intMid)
+		{
+			aux[arr[intI] - 1] = '&';
+		}
+
+		intCur = 0;
+		FOR(intI, 0, aux.length())
+		{
+			if (aux[intI] == str2[intCur]) intCur++;
+		}
+
+		if (intCur >= str2.length())
+		{
+			intL = intMid;
+		}
+		else
+		{
+			intH = intMid - 1;
+		}
+	}
+
+	cout << intL << endl;
 
 	return 0;
 }

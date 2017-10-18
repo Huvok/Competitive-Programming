@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -37,38 +38,45 @@ typedef vector<ii> vii;
 class Solution
 {
 public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	string alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	unordered_map<string, string> m;
+	string key = getRand();
+
+	string getRand()
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
+		string s = "";
+		for (int i = 0; i < 6; i++)
 		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
+			s += alphabet[rand() % (sizeof(alphabet) - 1)];
 		}
 
-		while (n >= 0)
+		return s;
+	}
+
+	// Encodes a URL to a shortened URL.
+	string encode(string longUrl)
+	{
+		while (m.find(key) != m.end())
 		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
+			key = getRand();
 		}
+
+		m.insert(make_pair(key, longUrl));
+
+		return "http://tinyurl.com/" + key;
+	}
+
+	// Decodes a shortened URL to its original URL.
+	string decode(string shortUrl)
+	{
+		return m[shortUrl.substr(19)];
 	}
 };
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	
 
 	return 0;
 }

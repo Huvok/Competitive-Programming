@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,41 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
+ll gcd(ll a, ll b) 
 {
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+	if (b) return gcd(b, a % b);
+	return a;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	double a, b, c, d;
+	ll p, q;
+	cin >> a >> b >> c >> d;
+	if (abs((a / b) - (c / d)) < .00000000005)
+	{
+		cout << "0/1" << endl;
+		return 0;
+	}
+	else if (a / b < c / d)
+	{
+		p = (b * c - a * d);
+		q = (b * c);
+	}
+	else if (a / b > c / d)
+	{
+		p = (a * d - b * c);
+		q = (a * d);
+	}
 
+	ll intGCD = gcd(p, q);
+	p /= intGCD;
+	q /= intGCD;
+
+	cout << p << "/" << q << endl;
+	
 	return 0;
 }
+
 //======================================================================================================================

@@ -14,7 +14,6 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
 
 using namespace std;
@@ -34,42 +33,34 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
+ll dp[100005];
+ll travel[100005];
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll intN;
+	scanf("%lld", &intN);
+
+	dp[0] = 0; dp[1] = 20;
+	FOR(intI, 0, intN)
+	{
+		scanf("%lld", &travel[intI]);
+	}
+
+	FOR(intI, 0, intN)
+	{
+		ll travelMinus90 = upper_bound(travel, travel + intN, travel[intI] - 90) - travel;
+		ll travelMinus120 = upper_bound(travel, travel + intN, travel[intI] - 1440) - travel;
+		dp[intI + 1] = min(dp[intI] + 20, min(dp[travelMinus90] + 50, dp[travelMinus120] + 120));
+	}
+
+	FOR(intI, 1, intN + 1)
+	{
+		printf("%lld\n", dp[intI] - dp[intI - 1]);
+	}
 
 	return 0;
 }
+
 //======================================================================================================================

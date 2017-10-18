@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,27 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
-
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
-	}
-};
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	ll a2 = 0, a3 = 0, a5 = 0, b2 = 0, b3 = 0, b5 = 0;
+
+	ll a, b;
+	cin >> a >> b;
+	while (a % 2 == 0) a2++, a /= 2;
+	while (a % 3 == 0) a3++, a /= 3;
+	while (a % 5 == 0) a5++, a /= 5;
+	while (b % 2 == 0) b2++, b /= 2;
+	while (b % 3 == 0) b3++, b /= 3;
+	while (b % 5 == 0) b5++, b /= 5;
+
+	if (a == b)
+		cout << abs(a2 - b2) + abs(a3 - b3) + abs(a5 - b5) << endl;
+	else
+		cout << -1 << endl;
 
 	return 0;
 }
+
 //======================================================================================================================

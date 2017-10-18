@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -34,42 +35,44 @@ typedef pair<ll, ll> ii;
 typedef vector<ii> vii;
 
 //----------------------------------------------------------------------------------------------------------------------
-class Solution
-{
-public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
-	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
-		{
-			if (nums1[m] > nums2[n])
-			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
-			}
-			else
-			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
-			}
-		}
+bool arr[5000005];
 
-		while (n >= 0)
+void sieve()
+{
+	memset(arr, true, sizeof(arr));
+
+	arr[0] = arr[1] = false;
+
+	FOR(intI, 2, 5000001)
+	{
+		if (arr[intI])
 		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
+			for (ll intJ = intI * 2; intJ < 5000001; intJ += intI)
+			{
+				arr[intJ] = false;
+			}
 		}
 	}
-};
+}
 
 //----------------------------------------------------------------------------------------------------------------------
+
 int main()
 {
+	ll intN;
+	scanf("%lld", &intN);
+
+	ll intNext;
+	sieve();
+	FOR(intI, 0, intN)
+	{
+		scanf("%lld", &intNext);
+		ll i = sqrt(intNext);
+		if (arr[(ll)sqrt(intNext)] && (ll)sqrt(intNext) * (ll)sqrt(intNext) == intNext) printf("YES\n");
+		else printf("NO\n");
+	}
 
 	return 0;
 }
+
 //======================================================================================================================

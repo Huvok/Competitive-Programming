@@ -14,8 +14,8 @@
 #include <set>
 #include <iomanip>
 #include <string.h>
-#include <climits>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -27,6 +27,7 @@ using namespace std;
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define pb push_back
 #define mp make_pair
+#define lld I64d
 
 typedef long long ll;
 typedef vector<ll> vi;
@@ -37,38 +38,37 @@ typedef vector<ii> vii;
 class Solution
 {
 public:
-	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+	unordered_map<char, int> m = { { 'I', 1 },
+	{ 'V', 5 },
+	{ 'X', 10 },
+	{ 'L', 50 },
+	{ 'C', 100 },
+	{ 'D',500 },
+	{ 'M', 1000 } };
+	int romanToInt(string s)
 	{
-		ll intCur = m + n - 1;
-		m--; n--;
-		while (m >= 0 && n >= 0)
+		int intSum = m[s[s.length() - 1]];
+
+		for (int i = s.length() - 2; i >= 0; i--)
 		{
-			if (nums1[m] > nums2[n])
+			if (m[s[i]] < m[s[i + 1]])
 			{
-				nums1[intCur] = nums1[m];
-				m--;
-				intCur--;
+				intSum -= m[s[i]];
 			}
 			else
 			{
-				nums1[intCur] = nums2[n];
-				n--;
-				intCur--;
+				intSum += m[s[i]];
 			}
 		}
 
-		while (n >= 0)
-		{
-			nums1[intCur] = nums2[n];
-			n--;
-			intCur--;
-		}
+		return intSum;
 	}
 };
 
 //----------------------------------------------------------------------------------------------------------------------
 int main()
 {
+	
 
 	return 0;
 }
